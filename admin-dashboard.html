@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Affiluxa Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Fonts & Libraries -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Supabase Client -->
+<script src="supabase.js"></script>
+
+<style>
+
+body{
+  margin:0;background:#050316;color:#fff;font-family:"Inter";
+  display:flex;overflow:hidden;
+}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar{
+  width:260px;background:#08041c;height:100vh;padding:1.5rem;
+  position:fixed;top:0;left:0;display:flex;flex-direction:column;
+  border-right:1px solid rgba(255,122,0,0.25);
+  box-shadow:0 0 18px rgba(255,122,0,0.25);
+}
+.brand{
+  display:flex;align-items:center;gap:.6rem;font-family:"Montserrat";
+  font-size:1.2rem;margin-bottom:2rem;
+}
+.orb{
+  width:24px;height:24px;border-radius:50%;
+  background:radial-gradient(circle,#ffdead,#ff7a00);
+  box-shadow:0 0 18px #ff7a00;
+}
+.navbtn{
+  padding:.85rem 1rem;background:#0f0a2f;border-radius:12px;
+  border:1px solid rgba(255,122,0,0.25);margin-bottom:.7rem;
+  color:#fff;font-size:.9rem;text-align:left;cursor:pointer;
+}
+.navbtn:hover{
+  background:#1a114d;box-shadow:0 0 12px #ff7a00;border-color:#ff7a00;
+}
+
+.logout{
+  margin-top:auto;padding:.85rem 1rem;background:#ff0048;
+  border:none;border-radius:12px;color:#fff;font-weight:700;
+  cursor:pointer;box-shadow:0 0 12px #ff0048;
+}
+
+/* ==================== MAIN ==================== */
+.main{
+  margin-left:260px;width:calc(100% - 260px);
+  height:100vh;overflow-y:auto;padding:1.8rem;
+}
+
+/* TOP BAR */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.6rem;
+}
+.topbar h1{
+  font-family:"Montserrat";font-size:1.7rem;
+  text-shadow:0 0 12px rgba(255,122,0,0.7);
+}
+.adminLabel{
+  opacity:.8;font-size:.86rem;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1.4rem;margin-bottom:2rem;
+}
+
+.card{
+  background:#0b0724;padding:1.7rem;border-radius:18px;
+  border:1px solid rgba(255,122,0,0.25);
+  position:relative;overflow:hidden;
+  box-shadow:0 0 18px rgba(255,122,0,0.18);
+}
+.card h2{
+  font-size:2rem;font-family:"Montserrat";margin:0;
+  text-shadow:0 0 10px #ff7a00;
+}
+.card p{
+  margin-top:.4rem;color:#cacaf2;font-size:.9rem;
+}
+
+/* ANALYTICS BOXES */
+.chartBox{
+  background:#0b0724;padding:1.7rem;border-radius:18px;
+  border:1px solid rgba(255,122,0,0.25);
+  box-shadow:0 0 18px rgba(255,122,0,0.18);
+  margin-bottom:2rem;
+}
+
+canvas{width:100%;height:300px;}
+
+</style>
+</head>
+
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<div class="sidebar">
+  <div class="brand"><div class="orb"></div>AFFILUXA</div>
+
+  <button class="navbtn" onclick="location.href='admin-dashboard.html'">Dashboard</button>
+  <button class="navbtn" onclick="location.href='manage-students.html'">Manage Students</button>
+  <button class="navbtn" onclick="location.href='manage-courses.html'">Courses</button>
+  <button class="navbtn" onclick="location.href='manage-documents.html'">Documents</button>
+  <button class="navbtn" onclick="location.href='manage-notifications.html'">Notifications</button>
+  <button class="navbtn" onclick="location.href='support-requests.html'">Support Tickets</button>
+
+  <button class="logout" onclick="adminLogout()">Logout</button>
+</div>
+
+
+<!-- ==================== MAIN ==================== -->
+<div class="main">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <h1>Admin Dashboard</h1>
+    <div class="adminLabel" id="adminUser">Loading...</div>
+  </div>
+
+
+  <!-- STATS -->
+  <div class="grid">
+    <div class="card">
+      <h2 id="countStudents">0</h2>
+      <p>Total Students</p>
+    </div>
+
+    <div class="card">
+      <h2 id="countCourses">0</h2>
+      <p>Total Courses</p>
+    </div>
+
+    <div class="card">
+      <h2 id="countTickets">0</h2>
+      <p>Support Tickets</p>
+    </div>
+
+    <div class="card">
+      <h2 id="countNotifs">0</h2>
+      <p>Notifications</p>
+    </div>
+  </div>
+
+
+  <!-- STUDENT GROWTH CHART -->
+  <div class="chartBox">
+    <h3>Student Growth</h3>
+    <canvas id="studentGrowth"></canvas>
+  </div>
+
+  <!-- TICKET STATUS PIE CHART -->
+  <div class="chartBox">
+    <h3>Support Tickets Status</h3>
+    <canvas id="ticketChart"></canvas>
+  </div>
+
+</div>
+
+<script>
+
+/* ==================== AUTH ==================== */
+requireAdminAuth().then(user=>{
+  if(user){
+    document.getElementById("adminUser").textContent = user.email;
+  }
+});
+
+/* ==================== LOAD STATS ==================== */
+async function loadStats(){
+
+  const s = await client.from("students").select("*");
+  document.getElementById("countStudents").textContent = s.data.length;
+
+  const c = await client.from("courses").select("*");
+  document.getElementById("countCourses").textContent = c.data.length;
+
+  const t = await client.from("support_requests").select("*");
+  document.getElementById("countTickets").textContent = t.data.length;
+
+  const n = await client.from("notifications").select("*");
+  document.getElementById("countNotifs").textContent = n.data.length;
+
+  loadGrowthChart(s.data);
+  loadTicketChart(t.data);
+}
+
+loadStats();
+
+
+/* ==================== CHART: Student Growth ==================== */
+function loadGrowthChart(students){
+  // Count students per month
+  const months = Array(12).fill(0);
+
+  students.forEach(s=>{
+    const m = new Date(s.created_at).getMonth();
+    months[m]++;
+  });
+
+  new Chart(document.getElementById("studentGrowth"),{
+    type:"line",
+    data:{
+      labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      datasets:[{
+        label:"Students",
+        data:months,
+        borderColor:"#ff7a00",
+        borderWidth:3,
+        tension:0.3
+      }]
+    },
+    options:{responsive:true,plugins:{legend:{labels:{color:"#fff"}}},scales:{x:{ticks:{color:"#fff"}},y:{ticks:{color:"#fff"}}}}
+  });
+}
+
+
+/* ==================== CHART: Ticket Pie ==================== */
+function loadTicketChart(tickets){
+  let pending=0, progress=0, resolved=0;
+
+  tickets.forEach(t=>{
+    if(t.status === "pending") pending++;
+    if(t.status === "in_progress") progress++;
+    if(t.status === "resolved") resolved++;
+  });
+
+  new Chart(document.getElementById("ticketChart"),{
+    type:"pie",
+    data:{
+      labels:["Pending","In Progress","Resolved"],
+      datasets:[{
+        data:[pending,progress,resolved],
+        backgroundColor:["#ff0048","#ffae00","#00ff8c"]
+      }]
+    },
+    options:{plugins:{legend:{labels:{color:"#fff"}}}}
+  });
+}
+
+/* ==================== ANIMATIONS ==================== */
+gsap.from(".card",{duration:1,y:40,opacity:0,stagger:0.2});
+gsap.from(".chartBox",{duration:1,y:40,opacity:0,delay:.4});
+
+</script>
+
+</body>
+</html>

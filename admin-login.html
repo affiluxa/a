@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login – Affiluxa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<style>
+body{
+  margin:0;background:#050316;color:#fff;font-family:"Inter";
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+
+.loginBox{
+  width:90%;max-width:400px;padding:2rem;background:#0b0724;
+  border-radius:20px;border:1px solid rgba(255,122,0,0.25);
+  box-shadow:0 0 30px rgba(255,122,0,0.2);
+  text-align:center;position:relative;overflow:hidden;
+}
+
+.logo{display:flex;justify-content:center;align-items:center;
+  gap:.6rem;font-size:1.5rem;font-family:"Montserrat";margin-bottom:1rem;
+}
+
+.orb{
+  width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle,#ffdead,#ff7a00);
+  box-shadow:0 0 12px #ff7a00;
+}
+
+input{
+  width:100%;padding:.9rem;background:#050316;color:#fff;
+  border-radius:12px;border:1px solid rgba(255,255,255,0.25);
+  margin-bottom:1rem;font-size:.9rem;
+}
+
+.btn{
+  width:100%;padding:.9rem;background:#ff7a00;border:none;
+  border-radius:12px;color:#050316;font-weight:700;cursor:pointer;
+  box-shadow:0 0 12px #ff7a00;
+}
+
+.status{margin-top:.5rem;font-size:.9rem;}
+</style>
+</head>
+
+<body>
+
+<div class="loginBox">
+
+  <div class="logo"><div class="orb"></div>AFFILUXA ADMIN</div>
+
+  <input id="loginEmail" placeholder="Admin Email">
+  <input id="loginPassword" type="password" placeholder="Password">
+
+  <button class="btn" onclick="adminLogin()">Login</button>
+
+  <div class="status" id="statusBox"></div>
+
+</div>
+
+<script>
+
+// Animation
+gsap.from(".loginBox",{duration:1,y:40,opacity:0});
+
+// Login Function
+async function adminLogin(){
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  const status = document.getElementById("statusBox");
+
+  if(!email || !password){
+    status.style.color="red";
+    status.textContent="Enter email & password.";
+    return;
+  }
+
+  status.style.color="#ffae00";
+  status.textContent="Checking...";
+
+  // Supabase login
+  const { error } = await client.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error){
+    status.style.color="red";
+    status.textContent="Invalid credentials.";
+    return;
+  }
+
+  // Check admins table
+  const { data: admin } = await client.from("admins")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+  if(!admin){
+    status.style.color="red";
+    status.textContent="Access denied.";
+    await client.auth.signOut();
+    return;
+  }
+
+  status.style.color="#4dff8d";
+  status.textContent="Login successful...";
+
+  setTimeout(() => location.href = "admin-dashboard.html", 800);
+}
+
+</script>
+
+</body>
+</html>
