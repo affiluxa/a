@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Affiluxa – Student Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Supabase client -->
+<script src="supabase.js"></script>
+
+<style>
+body{
+  margin:0;background:#050316;color:#fff;font-family:"Inter",sans-serif;
+  overflow:hidden;display:flex;flex-direction:column;height:100vh;
+}
+.topnav{
+  padding:.9rem 1.5rem;background:#0a051f;border-bottom:1px solid rgba(255,255,255,0.08);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.brand{display:flex;align-items:center;gap:.6rem;}
+.orb{
+  width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle at 30% 20%,#ffd9a1,#ff7a00);
+  box-shadow:0 0 18px rgba(255,122,0,0.8);
+}
+.brand span{
+  font-family:"Montserrat";letter-spacing:.14em;font-size:.9rem;font-weight:700;
+}
+.logout{
+  background:#ff7a00;color:#050316;border:none;border-radius:999px;
+  padding:.5rem 1.2rem;font-size:.8rem;font-weight:700;text-transform:uppercase;
+  cursor:pointer;
+}
+
+.wrap{
+  display:grid;grid-template-columns:260px 1fr;flex:1;min-height:0;
+}
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+}
+
+.sidebar{
+  background:#0b0724;border-right:1px solid rgba(255,255,255,0.07);
+  padding:1.5rem 1.1rem;
+}
+.profile{
+  background:#09041b;border-radius:16px;border:1px solid rgba(255,255,255,0.07);
+  padding:1.2rem;text-align:center;margin-bottom:1.4rem;
+}
+.avatar{
+  width:64px;height:64px;border-radius:50%;background:#ff7a00;color:#050316;
+  font-weight:800;font-size:1.4rem;margin:0 auto .4rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.pname{font-family:"Montserrat";font-size:1.1rem;}
+.pmeta{font-size:.8rem;color:#a8a8c7;}
+
+.navbtn{
+  width:100%;margin-bottom:.6rem;background:#0f0a2f;
+  border:none;border-radius:12px;padding:.7rem 1rem;
+  color:#fff;font-size:.85rem;text-align:left;cursor:pointer;opacity:.85;
+}
+.navbtn:hover{background:#150e42;opacity:1;}
+
+.main{padding:1.6rem;overflow-y:auto;}
+.section{
+  background:#0b0724;border-radius:18px;border:1px solid rgba(255,255,255,0.07);
+  padding:1.6rem;margin-bottom:1.4rem;
+}
+.section h2{
+  font-family:"Montserrat";font-size:1.35rem;margin-bottom:.8rem;
+}
+
+.progress{
+  height:8px;border-radius:999px;background:#161035;overflow:hidden;margin-top:.4rem;
+}
+.progress-fill{
+  height:100%;width:0;background:#ff7a00;transition:width .4s ease;
+}
+
+.doc-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:#09041b;border-radius:12px;border:1px solid rgba(255,255,255,0.07);
+  padding:.9rem 1rem;margin-bottom:.6rem;font-size:.9rem;
+}
+.doc-item a{color:#ff9c36;}
+
+.note{
+  background:#09041b;border-radius:12px;border:1px solid rgba(255,255,255,0.07);
+  padding:.9rem 1rem;margin-bottom:.6rem;font-size:.9rem;
+}
+.note small{color:#a5a5c3;}
+
+textarea,input{
+  width:100%;padding:.8rem;border-radius:12px;border:1px solid #2a2545;
+  background:#050316;color:#fff;font-size:.9rem;margin-bottom:.7rem;
+}
+.btn{
+  background:#ff7a00;color:#050316;border:none;border-radius:999px;
+  padding:.75rem 1.4rem;font-weight:700;font-size:.85rem;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 0 20px rgba(255,122,0,0.6);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topnav">
+  <div class="brand">
+    <div class="orb"></div>
+    <span>AFFILUXA</span>
+  </div>
+  <button class="logout" id="logoutBtn">Logout</button>
+</div>
+
+<div class="wrap">
+  
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="profile">
+      <div class="avatar" id="avatar">A</div>
+      <div class="pname" id="sName">Loading...</div>
+      <div class="pmeta" id="sEmail">...</div>
+      <div class="pmeta" id="sBatch">Batch: -</div>
+    </div>
+
+    <button class="navbtn" onclick="showSection('profileSec')">Profile</button>
+    <button class="navbtn" onclick="showSection('courseSec')">Course</button>
+    <button class="navbtn" onclick="showSection('docsSec')">Documents</button>
+    <button class="navbtn" onclick="showSection('notifSec')">Notifications</button>
+    <button class="navbtn" onclick="showSection('supportSec')">Support</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <div class="section" id="profileSec">
+      <h2>Your Profile</h2>
+      <p><strong>Name:</strong> <span id="p_name">-</span></p>
+      <p><strong>Email:</strong> <span id="p_email">-</span></p>
+      <p><strong>Phone:</strong> <span id="p_phone">-</span></p>
+      <p><strong>Batch:</strong> <span id="p_batch">-</span></p>
+      <p><strong>Status:</strong> <span id="p_status">-</span></p>
+    </div>
+
+    <div class="section" id="courseSec" style="display:none;">
+      <h2>Your Course</h2>
+      <p><strong>Course:</strong> <span id="c_name">-</span></p>
+      <p><strong>Progress</strong></p>
+      <div class="progress">
+        <div class="progress-fill" id="c_progress"></div>
+      </div>
+    </div>
+
+    <div class="section" id="docsSec" style="display:none;">
+      <h2>Your Documents</h2>
+      <div class="doc-item"><span>ID Card</span><a id="idCard" target="_blank">View</a></div>
+      <div class="doc-item"><span>Certificate</span><a id="cert" target="_blank">View</a></div>
+      <div class="doc-item"><span>Offer Letter</span><a id="offer" target="_blank">View</a></div>
+      <div class="doc-item"><span>Experience Letter</span><a id="exp" target="_blank">View</a></div>
+    </div>
+
+    <div class="section" id="notifSec" style="display:none;">
+      <h2>Notifications</h2>
+      <div id="notifList"></div>
+    </div>
+
+    <div class="section" id="supportSec" style="display:none;">
+      <h2>Support Request</h2>
+      <form id="supportForm">
+        <input name="subject" placeholder="Subject (e.g. Update phone number)" required>
+        <textarea name="message" placeholder="Describe your request..." required></textarea>
+        <button class="btn">Submit Request</button>
+      </form>
+      <div id="supportStatus" style="margin-top:.6rem;font-size:.9rem;"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+  const el = document.getElementById(id);
+  el.style.display = "block";
+  gsap.from(el,{duration:.6,y:18,opacity:0,ease:"power3.out"});
+}
+
+async function loadStudent(){
+  const { data:{ session } } = await client.auth.getSession();
+  if (!session) { location.href="login.html"; return; }
+
+  const { data, error } = await client
+    .from("students")
+    .select("*")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    document.getElementById("sName").textContent = "Profile not found";
+    document.getElementById("sEmail").textContent = session.user.email;
+    return;
+  }
+
+  document.getElementById("sName").textContent = data.full_name;
+  document.getElementById("sEmail").textContent = data.email;
+  document.getElementById("sBatch").textContent = "Batch: " + (data.batch || "-");
+  document.getElementById("avatar").textContent = data.full_name.charAt(0).toUpperCase();
+
+  document.getElementById("p_name").textContent  = data.full_name;
+  document.getElementById("p_email").textContent = data.email;
+  document.getElementById("p_phone").textContent = data.phone || "-";
+  document.getElementById("p_batch").textContent = data.batch || "-";
+  document.getElementById("p_status").textContent = data.status || "Active";
+
+  document.getElementById("c_name").textContent = data.course || "-";
+  document.getElementById("c_progress").style.width = (data.progress || 0) + "%";
+
+  document.getElementById("idCard").href = data.id_card || "#";
+  document.getElementById("cert").href = data.certificate || "#";
+  document.getElementById("offer").href = data.offer_letter || "#";
+  document.getElementById("exp").href = data.experience_letter || "#";
+
+  loadNotifications();
+}
+
+async function loadNotifications(){
+  const { data } = await client.from("notifications").select("*").order("created_at", { ascending:false });
+  const box = document.getElementById("notifList");
+
+  if (!data || data.length === 0){
+    box.innerHTML = "<p>No notifications.</p>";
+    return;
+  }
+
+  box.innerHTML = "";
+  data.forEach(n => {
+    const div = document.createElement("div");
+    div.className = "note";
+    div.innerHTML = `
+      <strong>${n.title}</strong>
+      <p>${n.message}</p>
+      <small>${new Date(n.created_at).toLocaleString()}</small>
+    `;
+    box.appendChild(div);
+  });
+}
+
+document.getElementById("supportForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const status = document.getElementById("supportStatus");
+
+  const fd = new FormData(e.target);
+  const { data:{ session } } = await client.auth.getSession();
+
+  const { error } = await client.from("support_requests").insert([{
+    email: session.user.email,
+    subject: fd.get("subject"),
+    message: fd.get("message"),
+    status: "pending",
+    created_at: new Date().toISOString()
+  }]);
+
+  if (error){
+    status.textContent = "Failed to submit.";
+    status.style.color = "#ff4d4d";
+  } else {
+    status.textContent = "Request submitted.";
+    status.style.color = "#3dd68c";
+    e.target.reset();
+  }
+});
+
+document.getElementById("logoutBtn").onclick = async () => {
+  await client.auth.signOut();
+  location.href="login.html";
+};
+
+gsap.from(".topnav",{duration:.9,y:-20,opacity:0,ease:"power3.out"});
+gsap.from(".sidebar",{duration:.9,x:-30,opacity:0,ease:"power3.out",delay:.1});
+gsap.from(".main",{duration:.9,y:20,opacity:0,ease:"power3.out",delay:.15});
+
+loadStudent();
+
+</script>
+
+</body>
+</html>

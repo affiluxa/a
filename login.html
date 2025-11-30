@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Affiluxa – Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body{margin:0;background:#050316;color:#fff;font-family:"Inter",sans-serif;overflow-x:hidden;}
+    .wrap{display:grid;grid-template-columns:1fr 1fr;height:100vh;}
+    @media(max-width:900px){.wrap{grid-template-columns:1fr;height:auto;}}
+    .left{padding:4rem;background:radial-gradient(circle at 30% 15%,#ff9f4b 0%,#ff7a00 25%,transparent 60%),radial-gradient(circle at 80% 85%,#230032,#050316);position:relative;display:flex;flex-direction:column;justify-content:center;}
+    .left h1{font-family:"Montserrat";font-size:2.5rem;font-weight:800;line-height:1.1;}
+    .left h1 span{color:#ffdba3;}
+    .left p{max-width:420px;margin-top:1rem;opacity:.9;}
+    .right{padding:4rem;background:#09041b;display:flex;align-items:center;justify-content:center;}
+    @media(max-width:900px){.right{padding:3rem 1.5rem;}}
+    .box{width:100%;max-width:380px;background:#0b0724;border-radius:18px;border:1px solid rgba(255,255,255,0.1);padding:2rem;box-shadow:0 0 26px rgba(0,0,0,0.6);}
+    .box h2{text-align:center;font-family:"Montserrat";margin-bottom:1.3rem;}
+    .field{margin-bottom:1.1rem;}
+    label{display:block;margin-bottom:.3rem;font-size:.85rem;color:#c4c4dd;}
+    input{width:100%;padding:.8rem;border-radius:12px;border:1px solid #2a2545;background:#050316;color:#fff;}
+    .btn{width:100%;margin-top:.3rem;background:#ff7a00;color:#050316;border-radius:999px;border:none;padding:.85rem;font-weight:700;font-size:.9rem;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(255,122,0,0.7);}
+    .link{text-align:center;margin-top:1rem;font-size:.9rem;color:#a2a2c6;}
+    .link a{color:#ff9c36;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="left">
+    <h1>Welcome to <span>Affiluxa</span></h1>
+    
+    
+  </div>
+  <div class="right">
+    <div class="box">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" required>
+        </div>
+        <button class="btn">Login</button>
+        <div id="status" style="margin-top:.8rem;text-align:center;font-size:.9rem;"></div>
+      </form>
+      <div class="link">No account? <a href="register.html">Register</a></div>
+    </div>
+  </div>
+</div>
+<script>
+  gsap.from(".left h1",{duration:1.1,y:30,opacity:0,ease:"power3.out"});
+  gsap.from(".left p",{duration:1.1,delay:.15,y:30,opacity:0,ease:"power3.out"});
+  gsap.from(".box",{duration:1.1,delay:.2,y:30,opacity:0,ease:"power3.out"});
+
+  let client=null;
+  if(window.supabase){
+    client=supabase.createClient(
+      "https://ovphitnisrmfweayzajh.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cGhpdG5pc3JtZndlYXl6YWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjQ0NDMsImV4cCI6MjA3OTg0MDQ0M30.eD1tcq8OzR2v1K7tMcOy1UXXdkcVaxc6bBUnpgactyM"
+    );
+  }
+  const ADMIN=["affiluxa@gmail.com","admin@affiluxa.com"];
+  const form=document.getElementById("loginForm");
+  const status=document.getElementById("status");
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    if(!client){
+      status.textContent="Connection issue. Try again.";
+      status.style.color="#ff4d4d";return;
+    }
+    status.textContent="Checking...";status.style.color="#ff9c36";
+    const fd=new FormData(form);const email=fd.get("email");const password=fd.get("password");
+    const {data,error}=await client.auth.signInWithPassword({email,password});
+    if(error){status.textContent="Invalid email or password.";status.style.color="#ff4d4d";return;}
+    status.textContent="Login successful. Redirecting...";status.style.color="#3dd68c";
+    setTimeout(()=>{
+      if(ADMIN.includes(email.trim().toLowerCase())) location.href="admin/admin-dashboard.html";
+      else location.href="student_dashboard.html";
+    },900);
+  });
+</script>
+</body>
+</html>
