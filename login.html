@@ -80,7 +80,7 @@
     if(error){status.textContent="Invalid email or password.";status.style.color="#ff4d4d";return;}
     status.textContent="Login successful. Redirecting...";status.style.color="#3dd68c";
     setTimeout(()=>{
-      if(ADMIN.includes(email.trim().toLowerCase())) location.href="admin/admin-dashboard.html";
+      if(ADMIN.includes(email.trim().toLowerCase())) location.href="admin-dashboard.html";
       else location.href="student_dashboard.html";
     },900);
   });
