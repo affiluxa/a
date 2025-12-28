@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify Certificate – Affiluxa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+        content="Verify Affiluxa free training certificates online. 100% free skill development initiative." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Inter",sans-serif;
+      background:#f6f8fc;
+      color:#1d1d2f;
+      line-height:1.6;
+      padding-bottom:70px;
+    }
+    a{text-decoration:none;color:inherit}
+
+    header{
+      background:#ffffff;
+      border-bottom:1px solid #e5e7eb;
+      position:sticky;top:0;z-index:50;
+    }
+    .nav{
+      max-width:1200px;margin:auto;
+      padding:1rem 1.5rem;
+      display:flex;align-items:center;
+    }
+    .brand{display:flex;align-items:center;gap:.6rem}
+    .logo{
+      width:38px;height:38px;border-radius:50%;
+      background:linear-gradient(135deg,#ffb45c,#ff7a00);
+    }
+    .brand h1{
+      font-family:"Montserrat";
+      font-size:1.1rem;font-weight:800;letter-spacing:.08em;
+    }
+    .brand span{
+      font-size:.7rem;color:#6b7280;letter-spacing:.25em;text-transform:uppercase;
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:auto;
+      padding:4rem 1.5rem;
+      text-align:center;
+    }
+    .wrap h2{
+      font-family:"Montserrat";
+      font-size:2.6rem;
+      font-weight:800;
+    }
+    .wrap h2 span{color:#ff7a00}
+    .wrap p{
+      margin-top:.8rem;
+      color:#4b5563;
+      font-size:1.05rem;
+    }
+
+    .verify-card{
+      margin-top:2.5rem;
+      background:#ffffff;
+      border:1px solid #e5e7eb;
+      border-radius:22px;
+      padding:2.8rem 2.4rem;
+    }
+
+    .form-group{
+      margin-bottom:1.2rem;
+      text-align:left;
+    }
+    .form-group label{
+      display:block;
+      font-size:.85rem;
+      margin-bottom:.35rem;
+      color:#374151;
+      font-weight:600;
+    }
+    .form-group input{
+      width:100%;
+      padding:.75rem;
+      border-radius:12px;
+      border:1px solid #d1d5db;
+      font-size:.9rem;
+      background:#f9fafb;
+    }
+
+    .btn{
+      margin-top:1rem;
+      width:100%;
+      background:#ff7a00;
+      color:#fff;
+      padding:.85rem 1.6rem;
+      border-radius:30px;
+      border:none;
+      font-size:.9rem;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .result{
+      margin-top:1.6rem;
+      padding:1.4rem;
+      border-radius:14px;
+      font-size:.95rem;
+      display:none;
+      text-align:left;
+    }
+    .valid{
+      background:#dcfce7;
+      color:#166534;
+      border:1px solid #86efac;
+    }
+    .invalid{
+      background:#fee2e2;
+      color:#991b1b;
+      border:1px solid #fecaca;
+    }
+
+    .info-note{
+      margin-top:2rem;
+      background:#e8f2ff;
+      color:#1d4ed8;
+      padding:1rem 1.2rem;
+      border-radius:14px;
+      font-size:.85rem;
+    }
+
+    .bottom-nav{
+      position:fixed;
+      bottom:0;left:0;
+      width:100%;height:60px;
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+    }
+    .bottom-nav a{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      font-size:.65rem;
+      color:#6b7280;
+    }
+    .bottom-nav a span{font-size:24px}
+    .bottom-nav a.active{color:#ff7a00}
+
+    footer{
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      padding:1.5rem;
+      text-align:center;
+      font-size:.75rem;
+      color:#6b7280;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>AFFILUXA</h1>
+        <span>Fiber · FTTH · Careers</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap">
+  <h2>Certificate <span>Verification</span></h2>
+  <p>Verify certificates issued under our <b>100% FREE</b> initiative.</p>
+
+  <div class="verify-card">
+    <form id="verifyForm">
+      <div class="form-group">
+        <label>Certificate ID</label>
+        <input id="certId" placeholder="AFFI-XXXXXXXXXX" required>
+      </div>
+      <button class="btn">Verify Certificate</button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <div class="info-note">
+    Certificates are digitally verifiable and completely free.
+  </div>
+</section>
+
+<footer>
+  Affiluxa provides training and certificates free of cost.
+</footer>
+
+<nav class="bottom-nav">
+  <a href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+  <a href="training.html"><span class="material-symbols-outlined">school</span>Training</a>
+  <a href="enroll.html"><span class="material-symbols-outlined">how_to_reg</span>Enroll</a>
+  <a href="verify-student.html" class="active"><span class="material-symbols-outlined">verified</span>Verify</a>
+  <a href="about.html"><span class="material-symbols-outlined">info</span>About</a>
+</nav>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const supabaseClient = supabase.createClient(
+    "https://vorksjzwswizlvntqtnr.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcmtzanp3c3dpemx2bnRxdG5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NDk3NDksImV4cCI6MjA4MjQyNTc0OX0.HHN-5NUKpUTtMBXOCpsUUtG5vH-tmw5KR7kRso1p624"
+  );
+
+  document.getElementById("verifyForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const cert = document.getElementById("certId").value.trim();
+    const resultBox = document.getElementById("result");
+
+    resultBox.style.display = "block";
+    resultBox.textContent = "Checking certificate…";
+
+    const { data, error } = await supabaseClient
+      .from("students")
+      .select("full_name, course, created_at")
+      .eq("certificate_id", cert)
+      .single();
+
+    if (error || !data) {
+      resultBox.className = "result invalid";
+      resultBox.innerHTML = "❌ Invalid or Not Issued Certificate ID";
+      return;
+    }
+
+    resultBox.className = "result valid";
+    resultBox.innerHTML = `
+      <b>✅ Valid Certificate</b><br><br>
+      <b>Name:</b> ${data.full_name}<br>
+      <b>Course:</b> ${data.course}<br>
+      <b>Issued By:</b> Affiluxa (FREE)
+    `;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Enrollment Successful – Affiluxa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Inter,sans-serif;
+  background:#f6f8fc;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card{
+  background:#fff;
+  padding:3rem 2.5rem;
+  border-radius:22px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  border:1px solid #e5e7eb;
+}
+.check{
+  width:70px;height:70px;
+  margin:auto;
+  border-radius:50%;
+  background:#16a34a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:36px;
+  margin-bottom:1.5rem;
+}
+h1{
+  font-family:Montserrat;
+  font-size:1.6rem;
+  margin-bottom:.5rem;
+}
+p{
+  font-size:.95rem;
+  color:#4b5563;
+  margin-bottom:1.2rem;
+}
+.cert{
+  background:#f1f5f9;
+  padding:1rem;
+  border-radius:14px;
+  font-weight:700;
+  letter-spacing:.05em;
+  margin-bottom:1.2rem;
+}
+.note{
+  font-size:.8rem;
+  color:#6b7280;
+}
+.btn{
+  display:inline-block;
+  margin-top:1.5rem;
+  padding:.7rem 1.6rem;
+  border-radius:30px;
+  background:#ff7a00;
+  color:#fff;
+  font-weight:700;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="check">✓</div>
+  <h1>Enrollment Successful</h1>
+  <p>You have successfully enrolled in Affiluxa Free Training.</p>
+
+  <div class="cert" id="certId">CERTIFICATE ID</div>
+
+  <p class="note">
+    Your <strong>digital certificate</strong> will be sent to your registered email shortly.
+  </p>
+
+  <a href="verify-student.html" class="btn">Verify Certificate</a>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const cert = params.get("cert");
+  if(cert){
+    document.getElementById("certId").textContent = cert;
+  }
+</script>
+
+</body>
+</html>

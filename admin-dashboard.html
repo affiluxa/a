@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard – Affiluxa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:"Inter",sans-serif;
+  background:#f6f8fc;
+  color:#1d1d2f;
+}
+
+/* LAYOUT */
+.dashboard{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+  background:#0f172a;
+  color:#fff;
+  padding:1.6rem 1.2rem;
+}
+
+.brand{
+  text-align:center;
+  margin-bottom:2rem;
+}
+.logo{
+  width:52px;height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffb45c,#ff7a00);
+  margin:auto;margin-bottom:.6rem;
+}
+.brand h1{
+  font-family:"Montserrat";
+  font-size:1.1rem;
+  letter-spacing:.12em;
+}
+.brand span{
+  font-size:.7rem;
+  opacity:.7;
+  letter-spacing:.25em;
+}
+
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  padding:.75rem;
+  border-radius:10px;
+  color:#cbd5f5;
+  font-size:.9rem;
+  margin-bottom:.4rem;
+}
+.menu a.active,
+.menu a:hover{
+  background:#1e293b;
+  color:#ff7a00;
+}
+.menu span{font-size:22px}
+
+/* MAIN */
+.main{
+  padding:2rem;
+}
+
+/* HEADER */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:2rem;
+}
+.topbar h2{
+  font-family:"Montserrat";
+  font-size:1.8rem;
+}
+.logout{
+  background:#fee2e2;
+  color:#991b1b;
+  border:none;
+  padding:.5rem 1rem;
+  border-radius:20px;
+  font-size:.8rem;
+  cursor:pointer;
+}
+
+/* STATS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.4rem;
+  margin-bottom:2rem;
+}
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:1.6rem;
+}
+.card h3{
+  font-size:.9rem;
+  color:#6b7280;
+}
+.card p{
+  font-size:2rem;
+  font-weight:800;
+  margin-top:.4rem;
+}
+
+/* TABLE */
+.table-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:1.4rem;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.85rem;
+}
+th,td{
+  padding:.6rem;
+  border-bottom:1px solid #e5e7eb;
+}
+th{
+  font-size:.75rem;
+  color:#6b7280;
+  text-transform:uppercase;
+}
+.action-btn{
+  background:#ff7a00;
+  color:#fff;
+  border:none;
+  padding:.3rem .7rem;
+  border-radius:14px;
+  font-size:.7rem;
+  cursor:pointer;
+  margin-right:.25rem;
+}
+.delete{background:#dc2626}
+
+/* MOBILE */
+@media(max-width:900px){
+  .dashboard{grid-template-columns:1fr}
+  .sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo"></div>
+      <h1>AFFILUXA</h1>
+      <span>ADMIN PANEL</span>
+    </div>
+
+    <nav class="menu">
+      <a class="active"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <h2>Admin Dashboard</h2>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="cards">
+      <div class="card">
+        <h3>Total Students</h3>
+        <p id="totalStudents">0</p>
+      </div>
+      <div class="card">
+        <h3>Certificates Issued</h3>
+        <p id="issued">0</p>
+      </div>
+      <div class="card">
+        <h3>Pending</h3>
+        <p id="pending">0</p>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+      <h3 style="margin-bottom:1rem">Students</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Certificate ID</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://vorksjzwswizlvntqtnr.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcmtzanp3c3dpemx2bnRxdG5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NDk3NDksImV4cCI6MjA4MjQyNTc0OX0.HHN-5NUKpUTtMBXOCpsUUtG5vH-tmw5KR7kRso1p624";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+/* AUTH GUARD */
+(async()=>{
+  const { data } = await supabaseClient.auth.getUser();
+  if(!data.user){
+    window.location.href="admin-login.html";
+  }
+})();
+
+/* LOAD STUDENTS */
+async function loadStudents(){
+  const { data } = await supabaseClient
+    .from("students")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  const tbody = document.getElementById("studentTable");
+  tbody.innerHTML="";
+
+  let issued=0,pending=0;
+
+  data.forEach(s=>{
+    s.status==="issued"?issued++:pending++;
+
+    tbody.innerHTML+=`
+      <tr>
+        <td>${s.full_name}</td>
+        <td>${s.course}</td>
+        <td>${s.certificate_id}</td>
+        <td>${s.status}</td>
+        <td>
+          <button class="action-btn" onclick="issueCert('${s.certificate_id}')">Issue</button>
+          <button class="action-btn" onclick="printCert('${s.certificate_id}')">Print</button>
+          <button class="action-btn delete" onclick="deleteStudent('${s.certificate_id}')">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("totalStudents").innerText=data.length;
+  document.getElementById("issued").innerText=issued;
+  document.getElementById("pending").innerText=pending;
+}
+
+loadStudents();
+
+/* ISSUE CERTIFICATE */
+async function issueCert(certId){
+  await supabaseClient
+    .from("students")
+    .update({status:"issued"})
+    .eq("certificate_id",certId);
+
+  alert("Certificate Issued");
+  loadStudents();
+}
+
+/* PRINT CERTIFICATE */
+function printCert(certId){
+  window.open(`certificate.html?cert=${certId}`,"_blank");
+}
+
+/* DELETE STUDENT */
+async function deleteStudent(certId){
+  if(!confirm("Delete this student?")) return;
+  await supabaseClient
+    .from("students")
+    .delete()
+    .eq("certificate_id",certId);
+  loadStudents();
+}
+
+/* LOGOUT */
+async function logout(){
+  await supabaseClient.auth.signOut();
+  window.location.href="admin-login.html";
+}
+</script>
+
+</body>
+</html>

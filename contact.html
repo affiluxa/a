@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact Us – Affiluxa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+        content="Contact Affiluxa for free fiber optic training, partnerships, or general enquiries." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Inter",sans-serif;
+      background:#f6f8fc;
+      color:#1d1d2f;
+      line-height:1.6;
+    }
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    header{
+      background:#fff;
+      border-bottom:1px solid #e5e7eb;
+      position:sticky;top:0;z-index:50;
+    }
+    .nav{
+      max-width:1200px;margin:auto;
+      padding:1rem 1.5rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:.6rem}
+    .logo{
+      width:38px;height:38px;border-radius:50%;
+      background:linear-gradient(135deg,#ffb45c,#ff7a00);
+    }
+    .brand h1{
+      font-family:"Montserrat";
+      font-size:1.1rem;font-weight:800;
+      letter-spacing:.08em;
+    }
+    .brand span{
+      font-size:.7rem;color:#6b7280;
+      letter-spacing:.25em;text-transform:uppercase;
+    }
+    .nav-links{display:flex;gap:1.6rem;font-size:.9rem}
+    .nav-links a:hover{color:#ff7a00}
+
+    /* PAGE */
+    .wrap{
+      max-width:1200px;margin:auto;
+      padding:3.5rem 1.5rem 4rem;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:3rem;
+    }
+    @media(max-width:900px){
+      .wrap{grid-template-columns:1fr}
+    }
+
+    /* LEFT */
+    .info h2{
+      font-family:"Montserrat";
+      font-size:2.6rem;font-weight:800;
+      line-height:1.15;
+    }
+    .info h2 span{color:#ff7a00}
+    .info p{
+      margin-top:1rem;
+      color:#4b5563;
+      font-size:1.05rem;
+    }
+    .contact-details{
+      margin-top:1.6rem;
+      font-size:.95rem;
+      color:#374151;
+    }
+    .contact-details p{
+      margin-bottom:.6rem;
+    }
+    .contact-details strong{font-weight:700}
+
+    .free-note{
+      margin-top:1.4rem;
+      background:#e8f2ff;
+      color:#1d4ed8;
+      padding:.6rem 1rem;
+      border-radius:14px;
+      font-size:.8rem;
+      font-weight:600;
+      display:inline-block;
+    }
+
+    /* FORM */
+    .form-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:20px;
+      padding:2.2rem;
+    }
+    .form-card h3{
+      font-family:"Montserrat";
+      font-size:1.5rem;margin-bottom:.4rem;
+    }
+    .form-card small{
+      color:#6b7280;
+      display:block;margin-bottom:1.4rem;
+    }
+    .form-group{margin-bottom:1rem}
+    .form-group label{
+      display:block;
+      font-size:.85rem;
+      margin-bottom:.35rem;
+      color:#374151;
+      font-weight:600;
+    }
+    .form-group input,
+    .form-group textarea{
+      width:100%;
+      padding:.75rem;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      font-size:.9rem;
+      background:#f9fafb;
+    }
+    textarea{resize:none;height:120px}
+    .form-group input:focus,
+    .form-group textarea:focus{
+      outline:none;border-color:#ff7a00;
+      background:#fff;
+    }
+    .btn{
+      margin-top:1rem;
+      background:#ff7a00;
+      color:#fff;
+      padding:.8rem 1.6rem;
+      border-radius:30px;
+      border:none;
+      font-size:.85rem;
+      font-weight:700;
+      cursor:pointer;
+      width:100%;
+    }
+
+    /* FOOTER */
+    footer{
+      background:#fff;
+      border-top:1px solid #e5e7eb;
+      padding:1.4rem;
+      text-align:center;
+      font-size:.75rem;
+      color:#6b7280;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>AFFILUXA</h1>
+        <span>Fiber · FTTH · Careers</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="training.html">Training</a>
+      <a href="enroll.html">Enroll</a>
+      <a href="verify-student.html">Verify</a>
+    </div>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<section class="wrap">
+
+  <!-- LEFT -->
+  <div class="info">
+    <h2>Contact <span>Affiluxa</span></h2>
+    <p>
+      Have questions about our free training programs, partnerships,
+      or telecom services? Reach out to us — we usually respond within 24 hours.
+    </p>
+
+    <div class="contact-details">
+      <p>📞 <strong>Phone:</strong> +91 7803871138</p>
+      <p>📧 <strong>Email:</strong> affiluxa@gmail.com</p>
+      <p>📍 <strong>Location:</strong> Muzaffarpur, Bihar, India</p>
+    </div>
+
+    <div class="free-note">
+      100% FREE Training • FREE Certificates • No Fees
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h3>Send an Enquiry</h3>
+    <small>We will contact you shortly</small>
+
+    <form>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input required>
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input required>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email">
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Your message"></textarea>
+      </div>
+
+      <button class="btn">Send Message</button>
+    </form>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Affiluxa provides training and certificates free of cost as part of a skill
+  development initiative. No fees are collected at any stage.
+</footer>
+
+</body>
+</html>

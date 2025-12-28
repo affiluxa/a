@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Training Programs – Affiluxa (100% Free)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+        content="Affiluxa offers 100% FREE fiber optic & FTTH training with FREE verifiable certificates." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Inter",sans-serif;
+      background:#f6f8fc;
+      color:#1d1d2f;
+      line-height:1.6;
+      padding-bottom:70px;
+    }
+    a{text-decoration:none;color:inherit}
+
+    /* HEADER */
+    header{
+      background:#ffffff;
+      border-bottom:1px solid #e5e7eb;
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+    .nav{
+      max-width:1200px;
+      margin:auto;
+      padding:1rem 1.5rem;
+      display:flex;
+      align-items:center;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+    }
+    .logo{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ffb45c,#ff7a00);
+    }
+    .brand h1{
+      font-family:"Montserrat";
+      font-size:1.1rem;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+    .brand span{
+      font-size:.7rem;
+      color:#6b7280;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+    }
+
+    /* PAGE HEADER */
+    .page-head{
+      max-width:1100px;
+      margin:auto;
+      padding:4rem 1.5rem 2.5rem;
+      text-align:center;
+    }
+    .page-head h2{
+      font-family:"Montserrat";
+      font-size:2.6rem;
+      font-weight:800;
+    }
+    .page-head h2 span{color:#ff7a00}
+    .page-head p{
+      margin-top:.8rem;
+      color:#4b5563;
+      font-size:1.05rem;
+    }
+    .free-badge{
+      margin-top:1rem;
+      display:inline-block;
+      background:#e8f2ff;
+      color:#1d4ed8;
+      padding:.45rem 1rem;
+      border-radius:20px;
+      font-size:.8rem;
+      font-weight:600;
+    }
+
+    /* PROGRAMS */
+    .programs{
+      max-width:1200px;
+      margin:auto;
+      padding:3.5rem 1.5rem;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:2rem;
+    }
+    .program-card{
+      background:#ffffff;
+      border:1px solid #e5e7eb;
+      border-radius:22px;
+      padding:2.4rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transition:.2s;
+    }
+    .program-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 12px 30px rgba(0,0,0,.07);
+    }
+    .program-card h3{
+      font-family:"Montserrat";
+      font-size:1.5rem;
+      margin-bottom:.6rem;
+    }
+    .program-card p{
+      color:#4b5563;
+      font-size:.95rem;
+      margin-bottom:1rem;
+    }
+    .program-list{
+      font-size:.9rem;
+      color:#374151;
+      margin-bottom:1.6rem;
+    }
+    .program-list li{
+      margin-bottom:.45rem;
+    }
+    .program-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:.6rem;
+      flex-wrap:wrap;
+    }
+    .tag{
+      background:#dcfce7;
+      color:#166534;
+      padding:.35rem .8rem;
+      border-radius:20px;
+      font-size:.75rem;
+      font-weight:700;
+    }
+    .btn{
+      background:#ff7a00;
+      color:#fff;
+      padding:.6rem 1.3rem;
+      border-radius:30px;
+      font-size:.8rem;
+      font-weight:600;
+    }
+
+    /* PROCESS */
+    .process{
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      padding:4rem 1.5rem;
+    }
+    .process-wrap{
+      max-width:1000px;
+      margin:auto;
+      text-align:center;
+    }
+    .process-wrap h3{
+      font-family:"Montserrat";
+      font-size:2.2rem;
+      font-weight:800;
+    }
+    .process-steps{
+      margin-top:3rem;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:2rem;
+    }
+    .step{
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius:18px;
+      padding:2rem 1.5rem;
+    }
+    .step span{
+      display:inline-flex;
+      width:36px;height:36px;
+      border-radius:50%;
+      background:#ff7a00;
+      color:#fff;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      margin-bottom:.6rem;
+    }
+    .step p{
+      font-size:.9rem;
+      color:#4b5563;
+    }
+
+    /* CTA */
+    .cta{
+      background:#f6f8fc;
+      padding:4rem 1.5rem;
+    }
+    .cta-box{
+      max-width:900px;
+      margin:auto;
+      text-align:center;
+      background:#ffffff;
+      border:1px solid #e5e7eb;
+      border-radius:22px;
+      padding:3rem 2rem;
+    }
+    .cta-box h3{
+      font-family:"Montserrat";
+      font-size:2rem;
+      font-weight:800;
+    }
+    .cta-box p{
+      margin-top:.6rem;
+      color:#4b5563;
+    }
+    .cta-actions{
+      margin-top:2rem;
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav{
+      position:fixed;
+      bottom:0;left:0;
+      width:100%;height:60px;
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      z-index:100;
+    }
+    .bottom-nav a{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      font-size:.65rem;
+      color:#6b7280;
+    }
+    .bottom-nav a span{font-size:24px}
+    .bottom-nav a.active{color:#ff7a00}
+    @media(min-width:900px){
+      .bottom-nav{display:none}
+      body{padding-bottom:0}
+    }
+
+    footer{
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      padding:1.5rem;
+      text-align:center;
+      font-size:.75rem;
+      color:#6b7280;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>AFFILUXA</h1>
+        <span>Fiber · FTTH · Careers</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <h2>Training <span>Programs</span></h2>
+  <p>Industry-ready telecom skills provided completely free of cost</p>
+  <div class="free-badge">100% FREE Training • FREE Certificate</div>
+</section>
+
+<section class="programs">
+
+  <div class="program-card">
+    <h3>FTTH Technician</h3>
+    <p>Beginner-friendly program focused on last-mile fiber installation.</p>
+    <ul class="program-list">
+      <li>✔ Fiber drop & routing</li>
+      <li>✔ ONU & router setup</li>
+      <li>✔ Customer activation</li>
+      <li>✔ Basic fault handling</li>
+    </ul>
+    <div class="program-footer">
+      <span class="tag">FREE</span>
+      <a href="enroll.html" class="btn">Enroll Free</a>
+    </div>
+  </div>
+
+  <div class="program-card">
+    <h3>Fiber Splicer</h3>
+    <p>Advanced hands-on training for fiber jointing & testing.</p>
+    <ul class="program-list">
+      <li>✔ Core & ribbon splicing</li>
+      <li>✔ Joint closures & ODF</li>
+      <li>✔ OTDR & power meter</li>
+      <li>✔ Fault restoration</li>
+    </ul>
+    <div class="program-footer">
+      <span class="tag">FREE</span>
+      <a href="enroll.html" class="btn">Enroll Free</a>
+    </div>
+  </div>
+
+  <div class="program-card">
+    <h3>Network Engineer Basics</h3>
+    <p>Foundation program for telecom & fiber network careers.</p>
+    <ul class="program-list">
+      <li>✔ Fiber network concepts</li>
+      <li>✔ ISP workflow basics</li>
+      <li>✔ Testing fundamentals</li>
+      <li>✔ Field professionalism</li>
+    </ul>
+    <div class="program-footer">
+      <span class="tag">FREE</span>
+      <a href="enroll.html" class="btn">Enroll Free</a>
+    </div>
+  </div>
+
+</section>
+
+<section class="process">
+  <div class="process-wrap">
+    <h3>How Training Works</h3>
+    <div class="process-steps">
+      <div class="step"><span>1</span><p>Free Enrollment</p></div>
+      <div class="step"><span>2</span><p>Hands-on Practical Training</p></div>
+      <div class="step"><span>3</span><p>Skill Assessment</p></div>
+      <div class="step"><span>4</span><p>FREE Certificate Issued</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-box">
+    <h3>Start Learning Telecom Skills Today</h3>
+    <p>Join Affiluxa’s 100% FREE training initiative</p>
+    <div class="cta-actions">
+      <a href="enroll.html" class="btn">Enroll Free</a>
+      <a href="verify-student.html" class="btn">Verify Certificate</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Affiluxa provides training and certificates free of cost.
+  No fees are collected at any stage.
+</footer>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+  <a href="training.html" class="active"><span class="material-symbols-outlined">school</span>Training</a>
+  <a href="enroll.html"><span class="material-symbols-outlined">how_to_reg</span>Enroll</a>
+  <a href="verify-student.html"><span class="material-symbols-outlined">verified</span>Verify</a>
+  <a href="about.html"><span class="material-symbols-outlined">info</span>About</a>
+</nav>
+
+</body>
+</html>

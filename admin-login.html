@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login – Affiluxa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f6f8fc;
+  font-family:"Inter",sans-serif;
+  color:#1d1d2f;
+}
+
+.login-card{
+  width:100%;
+  max-width:380px;
+  background:#ffffff;
+  padding:2.5rem 2.2rem;
+  border-radius:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+  border:1px solid #e5e7eb;
+}
+
+.brand{
+  text-align:center;
+  margin-bottom:1.8rem;
+}
+
+.logo{
+  width:56px;
+  height:56px;
+  margin:auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffb45c,#ff7a00);
+  margin-bottom:.8rem;
+}
+
+.brand h1{
+  font-family:"Montserrat",sans-serif;
+  font-weight:800;
+  letter-spacing:.1em;
+  font-size:1.2rem;
+}
+
+.brand span{
+  font-size:.7rem;
+  color:#6b7280;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+
+h2{
+  font-family:"Montserrat";
+  text-align:center;
+  font-size:1.6rem;
+  margin-bottom:.4rem;
+}
+
+.sub{
+  text-align:center;
+  font-size:.85rem;
+  color:#6b7280;
+  margin-bottom:1.6rem;
+}
+
+.form-group{
+  margin-bottom:1.1rem;
+}
+
+.form-group label{
+  display:block;
+  font-size:.85rem;
+  margin-bottom:.35rem;
+  font-weight:600;
+  color:#374151;
+}
+
+.form-group input{
+  width:100%;
+  padding:.8rem;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  font-size:.9rem;
+}
+
+.form-group input:focus{
+  outline:none;
+  border-color:#ff7a00;
+  background:#fff;
+}
+
+.btn{
+  width:100%;
+  margin-top:1rem;
+  background:#ff7a00;
+  color:#fff;
+  padding:.85rem;
+  border:none;
+  border-radius:30px;
+  font-weight:700;
+  cursor:pointer;
+  font-size:.9rem;
+}
+
+.btn:active{transform:scale(.98)}
+
+.note{
+  margin-top:1.2rem;
+  text-align:center;
+  font-size:.75rem;
+  color:#6b7280;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+
+  <div class="brand">
+    <div class="logo"></div>
+    <h1>AFFILUXA</h1>
+    <span>Admin Portal</span>
+  </div>
+
+  <h2>Admin Login</h2>
+  <div class="sub">Authorized access only</div>
+
+  <form id="adminLogin">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="admin@affiluxa.com" required>
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" required>
+    </div>
+
+    <button class="btn">Login</button>
+  </form>
+
+  <div class="note">
+    Affiluxa Admin Panel • Secure Login
+  </div>
+
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://vorksjzwswizlvntqtnr.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcmtzanp3c3dpemx2bnRxdG5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NDk3NDksImV4cCI6MjA4MjQyNTc0OX0.HHN-5NUKpUTtMBXOCpsUUtG5vH-tmw5KR7kRso1p624";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  document.getElementById("adminLogin").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      window.location.href = "admin-dashboard.html";
+    }
+  });
+</script>
+
+</body>
+</html>
